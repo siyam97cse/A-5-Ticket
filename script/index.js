@@ -1,79 +1,76 @@
-// console.log("I love you");
 let totalPrice = 0;
 let bdt = 550;
+let totalClicks = 0;
+const maxClicks = 4;
 
 const seats = document.querySelectorAll(".seat");
 
-// console.log(seat);
-
-for(let index = 0; index < seats.length; index++){
-    const seat = seats[index];
-    
-    // console.log(seat);
-    function changeColor(event){
-        
+function changeColor(event){
+    if(!event.disabled){
         event.style.backgroundColor = "#1DD100";
+        event.disabled = true;
+        totalClicks++;
+
+        if(totalClicks >= maxClicks){
+            disableAllSeats();
+            
+        }
     }
 
     
+}
 
+function disableAllSeats() {
+    for (let index = 0; index < seats.length; index++) {
+        const seat = seats[index];
+        seat.removeEventListener("click", changeColor);  
+        seat.disabled = true; 
+    }
+}
+
+for(let index = 0; index < seats.length; index++){
+    const seat = seats[index];
+
+    seat.addEventListener("click", function () {
+        changeColor(this);
+    });
+    
     seat.addEventListener("click", function(){
-        // console.log("I love you");
+   
+            const currentScoreElement = document.getElementById("curret-score");
+            const currentScoreText = currentScoreElement.innerText;
+            const currentScore = parseInt(currentScoreText);
+            console.log(currentScoreText);
+    
+            const newScore = currentScore + 1;
+    
+            currentScoreElement.innerText = newScore;
+    
+            const currentLifeElement = document.getElementById("current-life");
+            const currentLifeText = currentLifeElement.innerText;
+            const currntLife = parseInt(currentLifeText);
+    
+            const newLife = currntLife - 1;
+    
+            currentLifeElement.innerText = newLife;
 
-        const currentScoreElement = document.getElementById("curret-score");
-        const currentScoreText = currentScoreElement.innerText;
-        const currentScore = parseInt(currentScoreText);
-        console.log(currentScoreText);
-
-        const newScore = currentScore + 1;
-
-        currentScoreElement.innerText = newScore;
-
-        const currentLifeElement = document.getElementById("current-life");
-        const currentLifeText = currentLifeElement.innerText;
-        const currntLife = parseInt(currentLifeText);
-
-        const newLife = currntLife - 1;
-
-        currentLifeElement.innerText = newLife;
-        
-        const title = seat.querySelector("p").innerText;
-
-        const clas = seat.querySelector("h6").innerText;
-
-        const price = seat.querySelector("span").innerText;
-
-        const titleContainer = document.getElementById("title-container");
-        // console.log(titleContainer);
-
-        const p = document.createElement("li");
-        p.innerText = title;
-        titleContainer.appendChild(p);
-
-        const h6 = document.createElement("li");
-        h6.innerText = clas;
-        titleContainer.appendChild(h6);
-
-        const span = document.createElement("li");
-        span.innerText = price;
-        titleContainer.appendChild(span);
-        
-        // p.innerText = clas;
-        // titleContainer.appendChild(p);
-        // p.innerText = price;
-        // titleContainer.appendChild(p);
-        // console.log(title, clas, price);
-        
-        totalPrice += bdt;
-        document.getElementById("totalPrice").innerText = totalPrice;
-       
+            
+            const title = seat.querySelector("p").innerText;
+    
+            const titleContainer = document.getElementById("title-container");
+           
+    
+            const p = document.createElement("li");
+            p.innerText = title;
+            titleContainer.appendChild(p);
+            
+            totalPrice += bdt;
+            document.getElementById("totalPrice").innerText = totalPrice;
        
     });
 
     
 }
-
-
 
 const btn = document.getElementById("apply-button");
     
@@ -87,13 +84,10 @@ btn.addEventListener("click", function(){
    const couponElement = document.getElementById("input-field").value;
    console.log(couponElement);
 
-   
-
     if(totalPrice > 1600){
-        if(couponElement === "NEW15" || couponElement === "Couple 20"){
+        if(couponElement === "NEW15" || couponElement === "COUPLE20"){
             
-            // const visible = document.getElementById("apply-button");
-            // visible.style.display = "none";
+            
             hide();
             
             const discountElement = document.getElementById("discountPrice");
@@ -109,6 +103,7 @@ btn.addEventListener("click", function(){
         else{
             alert("Invalid Coupon Code");
             document.getElementById("input-field").value = "";
+            
         }
     }
 
@@ -119,3 +114,40 @@ btn.addEventListener("click", function(){
 
     
 });
+
+const number = document.getElementById("number");
+const bttn = document.getElementById("disabled");
+
+number.addEventListener("keyup", function(e){
+    const value = e.currentTarget.value;
+
+    if(value === ""){
+        bttn.disabled = true;
+    }
+
+    else{
+        bttn.disabled = false;
+    }
+
+    
+});
+
+function next(){
+    const next = document.getElementById("next");
+    next.classList.add("hidden");
+
+    const popUp = document.getElementById("popUp");
+    popUp.classList.remove("hidden"); 
+}
+
+
+
+
+
+
+
+
+
+
+
+
